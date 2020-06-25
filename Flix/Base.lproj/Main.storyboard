@@ -19,6 +19,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="fxI-wk-TKP">
+                                    <rect key="frame" x="0.0" y="243" width="414" height="246"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="color" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="187" id="B0r-Qq-rlI" customClass="MovieCellTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="414" height="187"/>
@@ -62,6 +67,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="nm7-UW-2gZ"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="fxI-wk-TKP" id="nTZ-Ks-Ar1"/>
                         <outlet property="tableView" destination="gsc-zI-qeB" id="erA-8O-G2Y"/>
                     </connections>
                 </viewController>
@@ -122,6 +128,11 @@
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="nqU-to-93T">
+                                        <rect key="frame" x="189" y="342" width="37" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="color" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="xGv-19-Zkq"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="zcX-tJ-Dwk"/>
@@ -132,6 +143,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="dAo-Vh-Yji"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="nqU-to-93T" id="d8h-pQ-AdL"/>
                         <outlet property="backdropView" destination="5gi-D0-m0t" id="VGQ-Rp-ZQz"/>
                         <outlet property="descriptionLabel" destination="o3x-gF-G69" id="DVO-Nb-AII"/>
                         <outlet property="posterView" destination="z0q-qR-BTm" id="DDS-No-wdO"/>

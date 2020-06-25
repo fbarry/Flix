@@ -15,8 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) UIAlertController *alertController;
 
 @end
 
@@ -24,9 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.activityIndicator startAnimating];
-    
+        
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
 
     self.backdropView.image = nil;
@@ -47,9 +43,7 @@
     }
     
     self.titleLabel.text = self.movie[@"title"];
-    self.descriptionLabel.text = self.movie[@"overview"];
-    
-    [self.activityIndicator stopAnimating];
+    self.descriptionLabel.text = self.movie[@"overview"];    
 }
 
 /*

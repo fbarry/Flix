@@ -19,11 +19,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="fxI-wk-TKP">
-                                    <rect key="frame" x="0.0" y="243" width="414" height="246"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="color" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="187" id="B0r-Qq-rlI" customClass="MovieCellTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="414" height="187"/>
@@ -61,10 +56,16 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="fxI-wk-TKP">
+                                <rect key="frame" x="0.0" y="388" width="414" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="fRb-ij-f66"/>
                     <navigationItem key="navigationItem" title="Movies" id="nm7-UW-2gZ"/>
                     <connections>
                         <outlet property="activityIndicator" destination="fxI-wk-TKP" id="nTZ-Ks-Ar1"/>
@@ -73,7 +74,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1957.9710144927537" y="112.5"/>
+            <point key="canvasLocation" x="2868.115942028986" y="112.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7CX-2g-bdA">
@@ -87,7 +88,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="l0w-ha-d4Z"/>
+                        <segue destination="0gg-Tq-ZYc" kind="relationship" relationship="rootViewController" id="l0w-ha-d4Z"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1oj-v6-j6H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -128,11 +129,6 @@
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="nqU-to-93T">
-                                        <rect key="frame" x="189" y="342" width="37" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="color" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </activityIndicatorView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="xGv-19-Zkq"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="zcX-tJ-Dwk"/>
@@ -143,7 +139,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="dAo-Vh-Yji"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="nqU-to-93T" id="d8h-pQ-AdL"/>
                         <outlet property="backdropView" destination="5gi-D0-m0t" id="VGQ-Rp-ZQz"/>
                         <outlet property="descriptionLabel" destination="o3x-gF-G69" id="DVO-Nb-AII"/>
                         <outlet property="posterView" destination="z0q-qR-BTm" id="DDS-No-wdO"/>
@@ -152,7 +147,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AMg-XF-g0v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2769.5652173913045" y="112.5"/>
+            <point key="canvasLocation" x="3679.7101449275365" y="112.5"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="uMB-EO-HI0">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="0gg-Tq-ZYc" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="tAq-Cf-KPX"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oUw-wx-Tjk">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.41176598489999999" green="1" blue="0.74961081809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="selectedImageTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="96x-u6-uoK"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2qr-G5-9t5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1957.9710144927537" y="112.5"/>
         </scene>
     </scenes>
 </document>

@@ -81,9 +81,7 @@
     NSDictionary *movie = self.movies[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.descriptionLabel.text = movie[@"overview"];
-    
-    cell.posterView.image = nil;
-    
+        
     if ([movie[@"poster_path"] isKindOfClass:[NSString class]]) {
         NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
         NSString *posterURLString = movie[@"poster_path"];

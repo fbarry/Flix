@@ -34,6 +34,7 @@ The following **additional** features are implemented:
 - [X] All images have placeholders
 - [X] Alert shows when a movie does not have a trailer associated
 - [X] Search view shows number of search results
+- [X] Created a utility class with a helper function to present an alert
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 

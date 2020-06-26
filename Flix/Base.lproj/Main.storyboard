@@ -127,7 +127,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="rzT-X9-fiL"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Superhero" id="Edw-Kg-zfx"/>
+                    <navigationItem key="navigationItem" title="Popular" id="Edw-Kg-zfx"/>
                     <connections>
                         <outlet property="activityIndicator" destination="m3b-Wn-ziV" id="qFy-bd-jqx"/>
                         <outlet property="collectionView" destination="q84-b9-3Dq" id="Ojn-tZ-Oru"/>
@@ -204,11 +204,11 @@
             </objects>
             <point key="canvasLocation" x="4934.7826086956529" y="900.66964285714278"/>
         </scene>
-        <!--Movies Navigation Controller-->
+        <!--Now Playing Navigation Controller-->
         <scene sceneID="7CX-2g-bdA">
             <objects>
-                <navigationController title="Movies Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="2fV-Ix-0DU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movies" image="now_playing_tabbar_item" id="ugK-E9-OkM"/>
+                <navigationController title="Now Playing Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="2fV-Ix-0DU" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Now Playing" image="now_playing_tabbar_item" id="ugK-E9-OkM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2Tt-ki-Vr1">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -228,7 +228,7 @@
         <scene sceneID="Jbb-0f-R7S">
             <objects>
                 <navigationController title="Movies Grid Navigation Controller" id="8Xe-gz-div" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Superhero" image="superhero_tabbar_item" id="5KS-6k-bZ8"/>
+                    <tabBarItem key="tabBarItem" title="Popular" image="reel_tabbar_icon" id="5KS-6k-bZ8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jKq-E5-zbb">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -385,13 +385,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zbn-5o-KnI"/>
+        <segue reference="XLP-G1-Get"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="now_playing_tabbar_item" width="21" height="21"/>
         <image name="paintbrush" catalog="system" width="128" height="128"/>
-        <image name="superhero_tabbar_item" width="21" height="23"/>
+        <image name="reel_tabbar_icon" width="25" height="25"/>
         <image name="video" catalog="system" width="128" height="83"/>
     </resources>
 </document>

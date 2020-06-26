@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "VideoViewController.h"
+#import "Utilities.h"
 
 @interface DetailsViewController ()
 

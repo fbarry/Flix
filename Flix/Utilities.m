@@ -10,18 +10,25 @@
 
 @implementation Utilities
 
- - (UIAlertController *) alert {
-    UIAlertController *alertController = [UIAlertController
-                            alertControllerWithTitle:@"Cannot Load Movies"
-                            message:@"The Internet connection appears to be offline."
-                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *tryAgain = [UIAlertAction
-                               actionWithTitle:@"Try Again"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action) { } ];
-    [alertController addAction:tryAgain];
-    
-    return alertController;
+// For handler signature, learn this from Apple iOS class API reference
+// e.g. + (instancetype)actionWithTitle:(nullable NSString *)title style:(UIAlertActionStyle)style handler:(void (^ __nullable)(UIAlertAction *action))handler;
+// the type is '(void (^ __nullable)(UIAlertAction *action))'
++ (void) showAlertWithTitle:(NSString *)title
+                    message:(NSString *)message
+                buttonTitle:(NSString *)buttonTitle
+              buttonHandler:(void (^)(UIAlertAction *action))handler
+           inViewController:(UIViewController *)viewController {
+
+    UIAlertController *const alertController = [UIAlertController
+                                               alertControllerWithTitle:title
+                                               message:message
+                                               preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction
+                             actionWithTitle:buttonTitle
+                             style:UIAlertActionStyleDefault
+                             handler:handler];
+   [alertController addAction:action];
+   [viewController presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

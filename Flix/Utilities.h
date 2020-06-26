@@ -11,6 +11,10 @@
 
 @interface Utilities : NSObject
 
-- (UIAlertController *) alert;
++ (void) showAlertWithTitle:(NSString *)title
+                    message:(NSString *)message
+                buttonTitle:(NSString *)buttonTitle
+              buttonHandler:(void (^)(UIAlertAction *action))handler
+           inViewController:(UIViewController *)viewController;
 
 @end

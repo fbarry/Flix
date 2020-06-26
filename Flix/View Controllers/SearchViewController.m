@@ -10,13 +10,13 @@
 #import "MovieCollectionCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
+#import "Utilities.h"
 
 @interface SearchViewController () <UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) NSArray *movies;
 @property (nonatomic, strong) NSArray *filteredMovies;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) UIAlertController *alertController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UILabel *searchLabel;
 
@@ -45,24 +45,18 @@
 }
 
 - (void) fetchMovies {
-    
-    NSLog(@"fetchMovies");
-    
     NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error != nil) {
-                self.alertController = [UIAlertController
-                                        alertControllerWithTitle:@"Cannot Load Movies"
-                                        message:@"The Internet connection appears to be offline."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *tryAgain = [UIAlertAction
-                                           actionWithTitle:@"Try Again"
-                                           style:UIAlertActionStyleDefault
-                                           handler:^(UIAlertAction * action) { [self fetchMovies]; }];
-                [self.alertController addAction:tryAgain];
-                [self presentViewController:self.alertController animated:YES completion:nil];
+                [Utilities showAlertWithTitle:@"Cannot Load Movies"
+                         message:@"The Internet connection appears to be offline."
+                     buttonTitle:@"Try Again"
+                   buttonHandler:^(UIAlertAction *action) {
+                                  [self fetchMovies];
+                                }
+                inViewController:self];
             }
             else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -70,8 +64,6 @@
                 self.movies = dataDictionary[@"results"];
                 self.filteredMovies = self.movies;
                 [self.collectionView reloadData];
-                
-                NSLog(@"done fetching");
             }
        }];
     [task resume];

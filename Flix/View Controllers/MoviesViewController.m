@@ -10,6 +10,7 @@
 #import "DetailsViewController.h"
 #import "MovieCellTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "Utilities.h"
 
 @interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -17,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) UIAlertController *alertController;
 
 @end
 
@@ -43,18 +43,14 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            // define weak self here
             if (error != nil) {
-                self.alertController = [UIAlertController
-                                        alertControllerWithTitle:@"Cannot Load Movies"
-                                        message:@"The Internet connection appears to be offline."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *tryAgain = [UIAlertAction
-                                           actionWithTitle:@"Try Again"
-                                           style:UIAlertActionStyleDefault
-                                           handler:^(UIAlertAction * action) { [self fetchMovies]; }];
-                [self.alertController addAction:tryAgain];
-                [self presentViewController:self.alertController animated:YES completion:nil];
+                [Utilities showAlertWithTitle:@"Cannot Load Movies"
+                         message:@"The Internet connection appears to be offline."
+                     buttonTitle:@"Try Again"
+                   buttonHandler:^(UIAlertAction *action) {
+                                  [self fetchMovies];
+                                }
+                inViewController:self];
             }
             else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];

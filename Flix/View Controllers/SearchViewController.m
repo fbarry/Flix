@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) UIAlertController *alertController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UILabel *searchLabel;
 
 @end
 
@@ -78,9 +79,7 @@
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
     NSDictionary *movie = self.filteredMovies[indexPath.item];
-    
-    cell.posterView.image = nil;
-    
+        
     if ([movie[@"poster_path"] isKindOfClass:[NSString class]]) {
         // NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
         // NSString *posterURLString = movie[@"poster_path"];
@@ -91,7 +90,6 @@
         NSString *posterURLString = movie[@"poster_path"];
         NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
         NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        NSLog(fullPosterURLString);
         [cell.posterView setImageWithURL:posterURL];
     }
     
@@ -99,6 +97,7 @@
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    self.searchLabel.text = [NSString stringWithFormat:@"Found: %lu Search Results", self.filteredMovies.count];
     return self.filteredMovies.count;
 }
 

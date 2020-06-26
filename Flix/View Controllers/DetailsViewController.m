@@ -33,7 +33,6 @@
     
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
 
-    self.backdropView.image = nil;
     if ([self.movie[@"backdrop_path"] isKindOfClass:[NSString class]]) {
         NSString *backdropURLString = self.movie[@"backdrop_path"];
         NSString *fullBackdropURLString = [baseURLString stringByAppendingString:backdropURLString];
@@ -41,7 +40,6 @@
         [self.backdropView setImageWithURL:backdropURL];
     }
     
-    self.posterView.image = nil;
     if ([self.movie[@"poster_path"] isKindOfClass:[NSString class]]) {
         NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
         NSString *posterURLString = self.movie[@"poster_path"];
@@ -90,6 +88,12 @@
                 break;
             }
         }
+    }
+    
+    if (!self.trailerVideo) {
+        UIAlertController *noVideoAlert = [UIAlertController alertControllerWithTitle:@"No Video Available" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:(UIViewController *)noVideoAlert animated:YES completion:nil];
+        [noVideoAlert dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

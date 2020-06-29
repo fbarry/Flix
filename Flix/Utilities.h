@@ -15,6 +15,8 @@
                     message:(NSString *)message
                 buttonTitle:(NSString *)buttonTitle
               buttonHandler:(void (^)(UIAlertAction *action))handler
+          secondButtonTitle:(NSString *)secondButtonTitle
+        secondButtonHandler:(void (^)(UIAlertAction *secondAction))secondHandler
            inViewController:(UIViewController *)viewController;
 
 @end

@@ -17,6 +17,8 @@
                     message:(NSString *)message
                 buttonTitle:(NSString *)buttonTitle
               buttonHandler:(void (^)(UIAlertAction *action))handler
+          secondButtonTitle:(NSString *)secondButtonTitle
+        secondButtonHandler:(void (^)(UIAlertAction *secondAction))secondHandler
            inViewController:(UIViewController *)viewController {
 
     UIAlertController *const alertController = [UIAlertController
@@ -27,8 +29,20 @@
                              actionWithTitle:buttonTitle
                              style:UIAlertActionStyleDefault
                              handler:handler];
-   [alertController addAction:action];
-   [viewController presentViewController:alertController animated:YES completion:nil];
+    
+    UIAlertAction *secondAction = nil;
+    if (secondButtonTitle) {
+        secondAction = [UIAlertAction
+                        actionWithTitle:secondButtonTitle
+                        style:UIAlertActionStyleDefault
+                        handler:secondHandler];
+    }
+    
+    [alertController addAction:action];
+    if (secondAction) {
+        [alertController addAction:secondAction];
+    }
+    [viewController presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

@@ -54,12 +54,12 @@
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error != nil) {
                 [Utilities showAlertWithTitle:@"Cannot Load Movies"
-                         message:@"The Internet connection appears to be offline."
-                     buttonTitle:@"Try Again"
-                   buttonHandler:^(UIAlertAction *action) {
-                                  [self fetchMovies];
-                                }
-                inViewController:self];
+                             message:@"The Internet connection appears to be offline."
+                         buttonTitle:@"Try Again"
+                       buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
+                    secondButtonTitle:nil
+                secondButtonHandler:nil
+                    inViewController:self];
             }
             else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];

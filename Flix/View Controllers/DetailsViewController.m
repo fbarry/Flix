@@ -17,10 +17,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (strong, nonatomic) UIAlertController *alertController;
 @property (strong, nonatomic) NSDictionary *videos;
 @property (strong, nonatomic) NSDictionary *trailerVideo;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
+@property (weak, nonatomic) IBOutlet UILabel *previewLabel;
 
 @end
 
@@ -28,6 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.previewLabel.hidden = YES;
     
     NSString *idString = self.movie[@"id"];
     [self fetchVideo:idString];
@@ -60,39 +62,45 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             if (error != nil) {
-                self.alertController = [UIAlertController
-                                        alertControllerWithTitle:@"Cannot Load Video"
-                                        message:@"The Internet connection appears to be offline."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *tryAgain = [UIAlertAction
-                                           actionWithTitle:@"Try Again"
-                                           style:UIAlertActionStyleDefault
-                                           handler:^(UIAlertAction * action) { [self fetchVideo:idString]; }];
-                [self.alertController addAction:tryAgain];
-                [self presentViewController:self.alertController animated:YES completion:nil];
+                [Utilities showAlertWithTitle:@"Cannot Load Video"
+                                      message:@"The Internet connection appears to be offline."
+                                  buttonTitle:@"Try Again"
+                                buttonHandler:^(UIAlertAction *action) { [self fetchVideo:idString]; }
+                            secondButtonTitle:@"Cancel"
+                          secondButtonHandler:^(UIAlertAction *secondAction) { [session invalidateAndCancel]; }
+                             inViewController:self];
             }
             else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                
                 self.videos = dataDictionary[@"results"];
+                
+                for (NSDictionary *video in self.videos) {
+                    if ([video[@"type"] isEqualToString:@"Trailer"] && [video[@"site"] isEqualToString:@"YouTube"]) {
+                        self.trailerVideo = video;
+                                                    
+//                        UIAlertController *videoAlert = [UIAlertController alertControllerWithTitle:@"Video Available"
+//                                                                                            message:@"Click on backdrop to view."
+//                                                                                     preferredStyle:UIAlertControllerStyleAlert];
+//                        [self presentViewController:(UIViewController *)videoAlert animated:YES completion:nil];
+//                        [videoAlert dismissViewControllerAnimated:YES completion:nil];
+                        
+                        break;
+                    }
+                }
             }
        }];
     [task resume];
 }
 
 - (IBAction)backdropClick:(id)sender {
-    if (self.videos) {
-        for (NSDictionary *video in self.videos) {
-            if ([video[@"type"] isEqualToString:@"Trailer"] && [video[@"site"] isEqualToString:@"YouTube"]) {
-                self.trailerVideo = video;
-                [self performSegueWithIdentifier:@"ToVideo" sender:self];
-                break;
-            }
-        }
+    if (self.trailerVideo) {
+        [self performSegueWithIdentifier:@"ToVideo" sender:self];
     }
-    
-    if (!self.trailerVideo) {
-        UIAlertController *noVideoAlert = [UIAlertController alertControllerWithTitle:@"No Video Available" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    else {
+        UIAlertController *noVideoAlert = [UIAlertController alertControllerWithTitle:@"No Video Available"
+                                                                              message:nil
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:(UIViewController *)noVideoAlert animated:YES completion:nil];
         [noVideoAlert dismissViewControllerAnimated:YES completion:nil];
     }

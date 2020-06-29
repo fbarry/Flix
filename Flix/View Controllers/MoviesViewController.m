@@ -11,6 +11,7 @@
 #import "MovieCellTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "Utilities.h"
+#import "MoviesGridViewController.h"
 
 @interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -47,9 +48,9 @@
                 [Utilities showAlertWithTitle:@"Cannot Load Movies"
                          message:@"The Internet connection appears to be offline."
                      buttonTitle:@"Try Again"
-                   buttonHandler:^(UIAlertAction *action) {
-                                  [self fetchMovies];
-                                }
+                   buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
+                secondButtonTitle:nil
+            secondButtonHandler:nil
                 inViewController:self];
             }
             else {

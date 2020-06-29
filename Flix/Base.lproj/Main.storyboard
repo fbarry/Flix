@@ -121,27 +121,24 @@
                                 </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCollectionCell" id="iBD-px-U0u" customClass="MovieCollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="205"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="133" height="205"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="3jT-KH-5fy">
-                                            <rect key="frame" x="0.0" y="0.0" width="80" height="205"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="133" height="205"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paintbrush" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zU6-pG-Yga">
-                                                    <rect key="frame" x="0.0" y="23.5" width="80" height="182.5"/>
+                                                    <rect key="frame" x="0.0" y="-1.5" width="133" height="207.5"/>
                                                     <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="AUa-JU-7ix"/>
-                                                        <constraint firstAttribute="height" constant="180" id="ieB-QW-KS7"/>
-                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="zU6-pG-Yga" secondAttribute="trailing" id="Ze6-NF-3Id"/>
+                                                <constraint firstItem="zU6-pG-Yga" firstAttribute="top" secondItem="3jT-KH-5fy" secondAttribute="top" id="a6g-Ys-Hak"/>
                                                 <constraint firstAttribute="bottom" secondItem="zU6-pG-Yga" secondAttribute="bottom" id="ewo-Hm-r7a"/>
                                                 <constraint firstItem="zU6-pG-Yga" firstAttribute="leading" secondItem="3jT-KH-5fy" secondAttribute="leading" id="nZ1-6F-dZb"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="80" height="205"/>
                                         <connections>
                                             <outlet property="posterView" destination="zU6-pG-Yga" id="IhR-5h-WeX"/>
                                             <segue destination="19a-gm-zsl" kind="show" id="XLP-G1-Get"/>
@@ -180,7 +177,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kAE-GH-484">
                                 <rect key="frame" x="0.0" y="187.5" width="414" height="625.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n3o-sh-jbD">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="n3o-sh-jbD">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -199,12 +196,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="paintbrush" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="eWU-UX-ezb">
-                                                    <rect key="frame" x="0.0" y="-2" width="128" height="128"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paintbrush" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="eWU-UX-ezb">
+                                                    <rect key="frame" x="0.0" y="-2" width="128" height="131"/>
                                                     <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="eWU-UX-ezb" firstAttribute="top" secondItem="KRb-Xh-wEM" secondAttribute="top" id="Exd-l6-Cxw"/>
+                                                <constraint firstAttribute="bottom" secondItem="eWU-UX-ezb" secondAttribute="bottom" id="OoJ-Z7-waO"/>
+                                                <constraint firstItem="eWU-UX-ezb" firstAttribute="leading" secondItem="KRb-Xh-wEM" secondAttribute="leading" id="i3o-ed-1Qr"/>
+                                                <constraint firstAttribute="trailing" secondItem="eWU-UX-ezb" secondAttribute="trailing" id="wul-en-RzF"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
                                             <outlet property="posterView" destination="eWU-UX-ezb" id="g67-oP-ro6"/>

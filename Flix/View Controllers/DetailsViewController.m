@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSDictionary *trailerVideo;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UILabel *previewLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *playImage;
 
 @end
 
@@ -79,11 +80,7 @@
                     if ([video[@"type"] isEqualToString:@"Trailer"] && [video[@"site"] isEqualToString:@"YouTube"]) {
                         self.trailerVideo = video;
                                                     
-//                        UIAlertController *videoAlert = [UIAlertController alertControllerWithTitle:@"Video Available"
-//                                                                                            message:@"Click on backdrop to view."
-//                                                                                     preferredStyle:UIAlertControllerStyleAlert];
-//                        [self presentViewController:(UIViewController *)videoAlert animated:YES completion:nil];
-//                        [videoAlert dismissViewControllerAnimated:YES completion:nil];
+                        self.playImage.hidden = NO;
                         
                         break;
                     }

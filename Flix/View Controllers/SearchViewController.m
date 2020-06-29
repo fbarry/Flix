@@ -31,18 +31,18 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.searchBar.delegate = self;
-    
-    [self fetchMovies];
-    
+        
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.collectionView.collectionViewLayout;
     
-    layout.minimumInteritemSpacing = 5;
+    layout.minimumInteritemSpacing = 2.5;
     layout.minimumLineSpacing = 5;
     
     CGFloat postersPerRow = 3;
     CGFloat itemWidth = (self.collectionView.frame.size.width - layout.minimumInteritemSpacing * (postersPerRow - 1)) / postersPerRow;
     CGFloat itemHeight = itemWidth * 1.5;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
+    
+    [self fetchMovies];
 }
 
 - (void) fetchMovies {

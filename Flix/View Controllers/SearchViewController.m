@@ -11,11 +11,12 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 #import "Utilities.h"
+#import "MoviesAPIManager.h"
 
 @interface SearchViewController () <UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
-@property (nonatomic, strong) NSArray *movies;
-@property (nonatomic, strong) NSArray *filteredMovies;
+@property (nonatomic, strong) NSMutableArray *movies;
+@property (nonatomic, strong) NSMutableArray *filteredMovies;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UILabel *searchLabel;
@@ -50,45 +51,32 @@
 - (void) fetchMovies {
     [self.activityIndicator startAnimating];
     
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error != nil) {
-                [Utilities showAlertWithTitle:@"Cannot Load Movies"
-                             message:@"The Internet connection appears to be offline."
-                         buttonTitle:@"Try Again"
-                       buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
-                    secondButtonTitle:nil
-                secondButtonHandler:nil
-                    inViewController:self];
-            }
-            else {
-                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               
-                self.movies = dataDictionary[@"results"];
-                self.filteredMovies = self.movies;
-                [self.collectionView reloadData];
-                [self.activityIndicator stopAnimating];
-            }
-       }];
-    [task resume];
+    MoviesAPIManager *manager = [MoviesAPIManager new];
+    [manager fetchMovies:^(NSMutableArray *movies, NSError *error) {
+        if (error) {
+            [Utilities showAlertWithTitle:@"Cannot Load Movies"
+                         message:@"The Internet connection appears to be offline."
+                     buttonTitle:@"Try Again"
+                   buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
+                secondButtonTitle:nil
+            secondButtonHandler:nil
+                inViewController:self];
+        }
+        else {
+            self.movies = movies;
+            self.filteredMovies = self.movies;
+            [self.collectionView reloadData];
+        }
+        [self.activityIndicator stopAnimating];
+    }];
 }
+
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
-    NSDictionary *movie = self.filteredMovies[indexPath.item];
+    Movie *movie = self.filteredMovies[indexPath.item];
         
-    if ([movie[@"poster_path"] isKindOfClass:[NSString class]]) {
-        // NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        // NSString *posterURLString = movie[@"poster_path"];
-        // NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-        // NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        
-        NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        NSString *posterURLString = movie[@"poster_path"];
-        NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-        NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        [cell.posterView setImageWithURL:posterURL];
+    if (movie.posterURL) {
+        [cell.posterView setImageWithURL:movie.posterURL];
     }
     
     return cell;
@@ -103,7 +91,7 @@
     
     if (searchText.length != 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title contains[c] %@",searchText];
-        self.filteredMovies = [self.movies filteredArrayUsingPredicate:predicate];
+        self.filteredMovies = (NSMutableArray *)[self.movies filteredArrayUsingPredicate:predicate];
     }
     else {
         self.filteredMovies = self.movies;
@@ -120,7 +108,7 @@
     // Pass the selected object to the new view controller.
     UICollectionViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:tappedCell];
-    NSDictionary *movie = self.filteredMovies[indexPath.item];
+    Movie *movie = self.filteredMovies[indexPath.item];
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.movie = movie;
 }

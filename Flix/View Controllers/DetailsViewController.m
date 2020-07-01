@@ -10,6 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "VideoViewController.h"
 #import "Utilities.h"
+#import "MoviesAPIManager.h"
 
 @interface DetailsViewController ()
 
@@ -32,62 +33,37 @@
     
     self.previewLabel.hidden = YES;
     
-    NSString *idString = self.movie[@"id"];
-    [self fetchVideo:idString];
+    [self fetchVideo];
     
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-
-    if ([self.movie[@"backdrop_path"] isKindOfClass:[NSString class]]) {
-        NSString *backdropURLString = self.movie[@"backdrop_path"];
-        NSString *fullBackdropURLString = [baseURLString stringByAppendingString:backdropURLString];
-        NSURL *backdropURL = [NSURL URLWithString:fullBackdropURLString];
-        [self.backdropView setImageWithURL:backdropURL];
+    self.titleLabel.text = self.movie.title;
+    self.descriptionLabel.text = self.movie.descriptionText;  
+    
+    if (self.movie.backdropURL) {
+        [self.backdropView setImageWithURL:self.movie.backdropURL];
     }
     
-    if ([self.movie[@"poster_path"] isKindOfClass:[NSString class]]) {
-        NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        NSString *posterURLString = self.movie[@"poster_path"];
-        NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-        NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        [self.posterView setImageWithURL:posterURL];
+    if (self.movie.posterURL) {
+        [self.posterView setImageWithURL:self.movie.posterURL];
     }
-    
-    self.titleLabel.text = self.movie[@"title"];
-    self.descriptionLabel.text = self.movie[@"overview"];    
 }
 
-- (void) fetchVideo:(NSString *) idString {
-    NSString *stringURL = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed&language=en-US", idString];
-    NSURL *url = [NSURL URLWithString:stringURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error != nil) {
-                [Utilities showAlertWithTitle:@"Cannot Load Video"
-                                      message:@"The Internet connection appears to be offline."
-                                  buttonTitle:@"Try Again"
-                                buttonHandler:^(UIAlertAction *action) { [self fetchVideo:idString]; }
-                            secondButtonTitle:@"Cancel"
-                          secondButtonHandler:^(UIAlertAction *secondAction) { [session invalidateAndCancel]; }
-                             inViewController:self];
-            }
-            else {
-                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               
-                self.videos = dataDictionary[@"results"];
-                
-                for (NSDictionary *video in self.videos) {
-                    if ([video[@"type"] isEqualToString:@"Trailer"] && [video[@"site"] isEqualToString:@"YouTube"]) {
-                        self.trailerVideo = video;
-                                                    
-                        self.playImage.hidden = NO;
-                        
-                        break;
-                    }
-                }
-            }
-       }];
-    [task resume];
+- (void) fetchVideo {
+    MoviesAPIManager *manager = [MoviesAPIManager new];
+    [manager fetchVideosForMovieWithID:self.movie.idStr withCompletion:^(NSDictionary *video, NSError *error) {
+        if (error) {
+            [Utilities showAlertWithTitle:@"Cannot Load Video"
+                        message:@"The Internet connection appears to be offline."
+                    buttonTitle:@"Try Again"
+                  buttonHandler:^(UIAlertAction *action) { [self fetchVideo]; }
+              secondButtonTitle:@"Cancel"
+            secondButtonHandler:^(UIAlertAction *secondAction) { return; }
+               inViewController:self];
+        }
+        else if (video){
+            self.trailerVideo = video;
+            self.playImage.hidden = NO;
+        }
+    }];
 }
 
 - (IBAction)backdropClick:(id)sender {

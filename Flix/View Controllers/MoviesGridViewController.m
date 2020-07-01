@@ -11,10 +11,11 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 #import "Utilities.h"
+#import "MoviesAPIManager.h"
 
 @interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) NSMutableArray *movies;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -46,40 +47,31 @@
 - (void) fetchMovies {
     [self.activityIndicator startAnimating];
     
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/popular?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed&language=en-US"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error != nil) {
-                [Utilities showAlertWithTitle:@"Cannot Load Movies"
-                             message:@"The Internet connection appears to be offline."
-                         buttonTitle:@"Try Again"
-                       buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
-                    secondButtonTitle:nil
-                secondButtonHandler:nil
-                    inViewController:self];
-            }
-            else {
-                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               
-                self.movies = dataDictionary[@"results"];
-                [self.collectionView reloadData];
-            }
+    MoviesAPIManager *manager = [MoviesAPIManager new];
+    [manager fetchMovies:^(NSMutableArray *movies, NSError *error) {
+        if (error) {
+            [Utilities showAlertWithTitle:@"Cannot Load Movies"
+                         message:@"The Internet connection appears to be offline."
+                     buttonTitle:@"Try Again"
+                   buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
+                secondButtonTitle:nil
+            secondButtonHandler:nil
+                inViewController:self];
+        }
+        else {
+            self.movies = movies;
+            [self.collectionView reloadData];
+        }
         [self.activityIndicator stopAnimating];
-       }];
-    [task resume];
+    }];
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
-    NSDictionary *movie = self.movies[indexPath.item];
+    Movie *movie = self.movies[indexPath.item];
         
-    if ([movie[@"poster_path"] isKindOfClass:[NSString class]]) {
-        NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        NSString *posterURLString = movie[@"poster_path"];
-        NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-        NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        [cell.posterView setImageWithURL:posterURL];
+    if (movie.posterURL) {
+        [cell.posterView setImageWithURL:movie.posterURL];
     }
     
     return cell;
@@ -97,7 +89,7 @@
     // Pass the selected object to the new view controller.
     UICollectionViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:tappedCell];
-    NSDictionary *movie = self.movies[indexPath.item];
+    Movie *movie = self.movies[indexPath.item];
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.movie = movie;
 }

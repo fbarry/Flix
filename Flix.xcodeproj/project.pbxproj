@@ -25,6 +25,8 @@
 		8C96756D24A551D9003943CB /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C96756C24A551D9003943CB /* SearchViewController.m */; };
 		8C96757024A63FE0003943CB /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C96756F24A63FE0003943CB /* VideoViewController.m */; };
 		8C96757424A64A98003943CB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C96757124A6499A003943CB /* WebKit.framework */; };
+		8CF24C5024ACE69C001E870D /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF24C4F24ACE69C001E870D /* Movie.m */; };
+		8CF24C5424ACF788001E870D /* MoviesAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CF24C5324ACF788001E870D /* MoviesAPIManager.m */; };
 		C061FBB3A78C9D6A5D2ABC79 /* Pods_FlixTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292AD081228FF41932D4733B /* Pods_FlixTests.framework */; };
 		E7F22F73CCC5728FD241A79E /* Pods_Flix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02495A24E6BF4C70F1954E3E /* Pods_Flix.framework */; };
 /* End PBXBuildFile section */
@@ -85,6 +87,10 @@
 		8C96756E24A63FE0003943CB /* VideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		8C96756F24A63FE0003943CB /* VideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		8C96757124A6499A003943CB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		8CF24C4E24ACE69C001E870D /* Movie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		8CF24C4F24ACE69C001E870D /* Movie.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		8CF24C5224ACF788001E870D /* MoviesAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoviesAPIManager.h; sourceTree = "<group>"; };
+		8CF24C5324ACF788001E870D /* MoviesAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoviesAPIManager.m; sourceTree = "<group>"; };
 		B3F4EE19219B0550B4DD9FE5 /* Pods-FlixTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlixTests.debug.xcconfig"; path = "Target Support Files/Pods-FlixTests/Pods-FlixTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C356AB08A7B1C5F7EB69797D /* Pods-Flix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flix.release.xcconfig"; path = "Target Support Files/Pods-Flix/Pods-Flix.release.xcconfig"; sourceTree = "<group>"; };
 		D3735A3217071B736E8D5E8E /* Pods-Flix-FlixUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flix-FlixUITests.debug.xcconfig"; path = "Target Support Files/Pods-Flix-FlixUITests/Pods-Flix-FlixUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +175,8 @@
 		8C9674CF24A3BCB6003943CB /* Flix */ = {
 			isa = PBXGroup;
 			children = (
+				8CF24C5124ACF774001E870D /* API */,
+				8CF24C4D24ACE67B001E870D /* Models */,
 				8C96750924A3FA7A003943CB /* Views */,
 				8C96750824A3C63E003943CB /* View Controllers */,
 				8C9674D024A3BCB6003943CB /* AppDelegate.h */,
@@ -230,6 +238,24 @@
 				8C96756924A5459A003943CB /* MovieCollectionCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8CF24C4D24ACE67B001E870D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8CF24C4E24ACE69C001E870D /* Movie.h */,
+				8CF24C4F24ACE69C001E870D /* Movie.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8CF24C5124ACF774001E870D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8CF24C5224ACF788001E870D /* MoviesAPIManager.h */,
+				8CF24C5324ACF788001E870D /* MoviesAPIManager.m */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -475,7 +501,9 @@
 				8C96757024A63FE0003943CB /* VideoViewController.m in Sources */,
 				8C96756D24A551D9003943CB /* SearchViewController.m in Sources */,
 				8C96756324A51AE1003943CB /* Utilities.m in Sources */,
+				8CF24C5424ACF788001E870D /* MoviesAPIManager.m in Sources */,
 				8C96750C24A3FA9F003943CB /* MovieCellTableViewCell.m in Sources */,
+				8CF24C5024ACE69C001E870D /* Movie.m in Sources */,
 				8C96751224A4181A003943CB /* DetailsViewController.m in Sources */,
 				8C96756A24A5459A003943CB /* MovieCollectionCell.m in Sources */,
 				8C96756724A5416F003943CB /* MoviesGridViewController.m in Sources */,

@@ -12,10 +12,12 @@
 #import "UIImageView+AFNetworking.h"
 #import "Utilities.h"
 #import "MoviesGridViewController.h"
+#import "Movie.h"
+#import "MoviesAPIManager.h"
 
 @interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) NSMutableArray *movies;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -42,29 +44,24 @@
 - (void) fetchMovies {
     [self.activityIndicator startAnimating];
     
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error != nil) {
-                [Utilities showAlertWithTitle:@"Cannot Load Movies"
+    MoviesAPIManager *manager = [MoviesAPIManager new];
+    [manager fetchMovies:^(NSMutableArray *movies, NSError *error) {
+        if (error) {
+            [Utilities showAlertWithTitle:@"Cannot Load Movies"
                          message:@"The Internet connection appears to be offline."
                      buttonTitle:@"Try Again"
                    buttonHandler:^(UIAlertAction *action) { [self fetchMovies]; }
                 secondButtonTitle:nil
             secondButtonHandler:nil
                 inViewController:self];
-            }
-            else {
-                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               
-                self.movies = dataDictionary[@"results"];
-                [self.tableView reloadData];
-            }
+        }
+        else {
+            self.movies = movies;
+            [self.tableView reloadData];
+        }
         [self.refreshControl endRefreshing];
         [self.activityIndicator stopAnimating];
-       }];
-    [task resume];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,16 +74,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MovieCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
-    NSDictionary *movie = self.movies[indexPath.row];
-    cell.titleLabel.text = movie[@"title"];
-    cell.descriptionLabel.text = movie[@"overview"];
-        
-    if ([movie[@"poster_path"] isKindOfClass:[NSString class]]) {
-        NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-        NSString *posterURLString = movie[@"poster_path"];
-        NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
-        NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
-        [cell.posterView setImageWithURL:posterURL];
+    Movie *movie = self.movies[indexPath.row];
+    
+    cell.titleLabel.text = movie.title;
+    cell.descriptionLabel.text = movie.descriptionText;
+    
+    if (movie.posterURL) {
+        [cell.posterView setImageWithURL:movie.posterURL];
     }
     
     return cell;
@@ -100,7 +94,7 @@
     // Pass the selected object to the new view controller.
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-    NSDictionary *movie = self.movies[indexPath.row];
+    Movie *movie = self.movies[indexPath.row];
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.movie = movie;
 }

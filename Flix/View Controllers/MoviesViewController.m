@@ -44,8 +44,10 @@
 - (void) fetchMovies {
     [self.activityIndicator startAnimating];
     
+    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
+    
     MoviesAPIManager *manager = [MoviesAPIManager new];
-    [manager fetchMovies:^(NSMutableArray *movies, NSError *error) {
+    [manager fetchMoviesWithURL:url withCompletion:^(NSMutableArray *movies, NSError *error) {
         if (error) {
             [Utilities showAlertWithTitle:@"Cannot Load Movies"
                          message:@"The Internet connection appears to be offline."
